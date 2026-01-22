@@ -1,16 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Footer from "../components/Footer.astro";
+import Nav from "../components/Nav.astro";
+import InstagramGrid from "../components/InstagramGrid.astro";
 ---
 
 <Layout title="Truly Pawsome">
-    <nav>
-        <div class="nav-logo">LOGO</div>
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">About</a>
-        </div>
-    </nav>
+    <Nav />
 
     <main>
         <!-- First section with border -->
@@ -30,18 +26,8 @@ import Footer from "../components/Footer.astro";
                     deserunt mollit anim id est laborum.
                 </p>
             </div>
-            <div class="instagram-grid">
-                <div class="insta-item">IG 1</div>
-                <div class="insta-item">IG 2</div>
-                <div class="insta-item">IG 3</div>
-                <div class="insta-item">IG 4</div>
-            </div>
-            <div class="instagram-grid">
-                <div class="insta-item">IG 5</div>
-                <div class="insta-item">IG 6</div>
-                <div class="insta-item">IG 7</div>
-                <div class="insta-item">IG 8</div>
-            </div>
+            <InstagramGrid items={[1, 2, 3, 4]} bordered={true} />
+            <InstagramGrid items={[5, 6, 7, 8]} bordered={true} />
         </section>
 
         <!-- Second section without border -->
@@ -61,18 +47,8 @@ import Footer from "../components/Footer.astro";
                     sit amet, wisi.
                 </p>
             </div>
-            <div class="instagram-grid">
-                <div class="insta-item">IG 9</div>
-                <div class="insta-item">IG 10</div>
-                <div class="insta-item">IG 11</div>
-                <div class="insta-item">IG 12</div>
-            </div>
-            <div class="instagram-grid">
-                <div class="insta-item">IG 13</div>
-                <div class="insta-item">IG 14</div>
-                <div class="insta-item">IG 15</div>
-                <div class="insta-item">IG 16</div>
-            </div>
+            <InstagramGrid items={[9, 10, 11, 12]} />
+            <InstagramGrid items={[13, 14, 15, 16]} />
         </section>
     </main>
 

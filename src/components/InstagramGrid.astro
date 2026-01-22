@@ -1,0 +1,14 @@
+---
+interface Props {
+  items: number[];
+  bordered?: boolean;
+}
+
+const { items, bordered = false } = Astro.props;
+---
+
+<div class:list={["instagram-grid", { bordered }]}>
+  {items.map((item) => (
+    <div class="insta-item">IG {item}</div>
+  ))}
+</div>
