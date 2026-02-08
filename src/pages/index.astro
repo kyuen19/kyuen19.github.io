@@ -26,8 +26,8 @@ import InstagramGrid from "../components/InstagramGrid.astro";
                     deserunt mollit anim id est laborum.
                 </p>
             </div>
-            <InstagramGrid items={[1, 2, 3, 4]} bordered={true} />
-            <InstagramGrid items={[5, 6, 7, 8]} bordered={true} />
+            <InstagramGrid account="bear" count={4} offset={0} bordered={true} />
+            <InstagramGrid account="bear" count={4} offset={4} bordered={true} />
         </section>
 
         <!-- Second section without border -->
@@ -47,10 +47,66 @@ import InstagramGrid from "../components/InstagramGrid.astro";
                     sit amet, wisi.
                 </p>
             </div>
-            <InstagramGrid items={[9, 10, 11, 12]} />
-            <InstagramGrid items={[13, 14, 15, 16]} />
+            <InstagramGrid account="bear" count={4} offset={0} />
+            <InstagramGrid account="bear" count={4} offset={4} />
         </section>
     </main>
 
     <Footer />
 </Layout>
+
+<script>
+    import { accounts } from "../instagram.config";
+
+    type MediaItem = {
+        id: string;
+        caption?: string;
+        media_url: string;
+        media_type: string;
+        timestamp: string;
+    };
+
+    async function loadInstagramMedia() {
+        const fetched = new Map<string, MediaItem[]>();
+
+        for (const [account, { userId, token }] of Object.entries(accounts)) {
+            if (!token) continue;
+
+            try {
+                const url = `https://graph.instagram.com/${userId}?fields=id,username,media_count,media{id,caption,media_url,media_type,timestamp}&access_token=${token}`;
+                const res = await fetch(url);
+                if (!res.ok) continue;
+
+                const data = await res.json();
+                const images = (data.media?.data ?? [])
+                    .filter((item: MediaItem) => item.media_type !== "VIDEO")
+                    .slice(0, 8);
+                fetched.set(account, images);
+            } catch {
+                // Graceful degradation: placeholders remain visible
+            }
+        }
+
+        for (const [account, images] of fetched) {
+            const items = document.querySelectorAll<HTMLElement>(
+                `.insta-item[data-account="${account}"]`
+            );
+
+            for (const el of items) {
+                const offset = parseInt(el.dataset.offset ?? "0", 10);
+                const index = parseInt(el.dataset.index ?? "0", 10);
+                const mediaIndex = offset + index;
+
+                if (mediaIndex < images.length) {
+                    const media = images[mediaIndex];
+                    const img = document.createElement("img");
+                    img.src = media.media_url;
+                    img.alt = media.caption ?? "";
+                    el.appendChild(img);
+                }
+            }
+        }
+    }
+
+    loadInstagramMedia();
+</script>

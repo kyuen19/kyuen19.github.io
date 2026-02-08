@@ -1,14 +1,21 @@
 ---
 interface Props {
-  items: number[];
+  account: string;
+  count: number;
+  offset: number;
   bordered?: boolean;
 }
 
-const { items, bordered = false } = Astro.props;
+const { account, count, offset, bordered = false } = Astro.props;
 ---
 
 <div class:list={["instagram-grid", { bordered }]}>
-  {items.map((item) => (
-    <div class="insta-item">IG {item}</div>
+  {Array.from({ length: count }, (_, i) => (
+    <div
+      class="insta-item"
+      data-account={account}
+      data-offset={offset}
+      data-index={i}
+    />
   ))}
 </div>
