@@ -3,13 +3,12 @@ interface Props {
   account: string;
   count: number;
   offset: number;
-  bordered?: boolean;
 }
 
-const { account, count, offset, bordered = false } = Astro.props;
+const { account, count, offset } = Astro.props;
 ---
 
-<div class:list={["instagram-grid", { bordered }]}>
+<div class="instagram-grid">
   {Array.from({ length: count }, (_, i) => (
     <div
       class="insta-item"

@@ -9,8 +9,7 @@ import InstagramGrid from "../components/InstagramGrid.astro";
     <Nav />
 
     <main>
-        <!-- First section with border -->
-        <section class="instagram-section bordered">
+        <section class="instagram-section">
             <h2 class="section-text">Section 1 - Astro</h2>
             <div class="section-body">
                 <p>
@@ -26,8 +25,8 @@ import InstagramGrid from "../components/InstagramGrid.astro";
                     deserunt mollit anim id est laborum.
                 </p>
             </div>
-            <InstagramGrid account="bear" count={4} offset={0} bordered={true} />
-            <InstagramGrid account="bear" count={4} offset={4} bordered={true} />
+            <InstagramGrid account="bear" count={4} offset={0} />
+            <InstagramGrid account="bear" count={4} offset={4} />
         </section>
 
         <!-- Second section without border -->
