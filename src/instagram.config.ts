@@ -1,8 +1,8 @@
 export const accounts: Record<string, { userId: string; token: string }> = {
-  bear: {
+  trulypawsome: {
     userId: "me",
     token:
-      "IGAA844dWGizVBZAFllblFMeHdFM2N4SnBHQ01OVWJyR0RrY0xsX2I3VFRZAdXpjV2JnU21STGNha1hmTDlqUXRGeXBJWE1rSGQ1ZAkRsMmpJempPUzhORWFDeUpHZAERvN3Vadk9KYnJ4MFRoaTFwd2VXckFoa1RveTFjc2RTYmVlWQZDZD",
+      "IGAA844dWGizVBZAFllLXk0bXRzczB6TzJwU3ctTmZAaMTBaTklPbDBtMF9VUzF3U3Nqcm1TSVFidjBGS1dWdzdqcG9NWHg4ZAlU4elloeS1CLXRlTGR3bXlTSXJXbVhCRDFlMnhqeWM3dlV6UkhiRkh3UmhmMV82YW80bzV6Wkg1OAZDZD",
   },
   murray_pug: {
     userId: "me",
