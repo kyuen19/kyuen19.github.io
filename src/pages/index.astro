@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Footer from "../components/Footer.astro";
 import Nav from "../components/Nav.astro";
 import InstagramGrid from "../components/InstagramGrid.astro";
+import InstagramLoader from "../components/InstagramLoader.astro";
 ---
 
 <Layout title="Truly Pawsome">
@@ -35,61 +36,6 @@ import InstagramGrid from "../components/InstagramGrid.astro";
         </section>
     </main>
 
+    <InstagramLoader />
     <Footer />
 </Layout>
-
-<script>
-    import { accounts } from "../instagram.config";
-
-    type MediaItem = {
-        id: string;
-        caption?: string;
-        media_url: string;
-        media_type: string;
-        timestamp: string;
-    };
-
-    async function loadInstagramMedia() {
-        const fetched = new Map<string, MediaItem[]>();
-
-        for (const [account, { userId, token }] of Object.entries(accounts)) {
-            if (!token) continue;
-
-            try {
-                const url = `https://graph.instagram.com/${userId}?fields=id,username,media_count,media{id,caption,media_url,media_type,timestamp}&access_token=${token}`;
-                const res = await fetch(url);
-                if (!res.ok) continue;
-
-                const data = await res.json();
-                const images = (data.media?.data ?? [])
-                    .filter((item: MediaItem) => item.media_type !== "VIDEO")
-                    .slice(0, 8);
-                fetched.set(account, images);
-            } catch {
-                // Graceful degradation: placeholders remain visible
-            }
-        }
-
-        for (const [account, images] of fetched) {
-            const items = document.querySelectorAll<HTMLElement>(
-                `.insta-item[data-account="${account}"]`
-            );
-
-            for (const el of items) {
-                const offset = parseInt(el.dataset.offset ?? "0", 10);
-                const index = parseInt(el.dataset.index ?? "0", 10);
-                const mediaIndex = offset + index;
-
-                if (mediaIndex < images.length) {
-                    const media = images[mediaIndex];
-                    const img = document.createElement("img");
-                    img.src = media.media_url;
-                    img.alt = media.caption ?? "";
-                    el.appendChild(img);
-                }
-            }
-        }
-    }
-
-    loadInstagramMedia();
-</script>
