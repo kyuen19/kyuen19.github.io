@@ -58,6 +58,7 @@ const fetchEntries = Object.entries(accounts).map(([account, { userId, token }])
                         img.src = media.media_url;
                         img.alt = media.caption ?? "";
                         img.decoding = "async";
+                        img.loading = "lazy";
                         el.appendChild(img);
                     }
                 }
