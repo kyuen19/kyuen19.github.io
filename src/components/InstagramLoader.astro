@@ -4,7 +4,7 @@ import { accounts } from "../instagram.config";
 // Build the fetch URLs at build time so the inline script is self-contained
 const fetchEntries = Object.entries(accounts).map(([account, { userId, token }]) => ({
     account,
-    url: `https://graph.instagram.com/${userId}?fields=id,username,media_count,media{id,caption,media_url,media_type,timestamp}&access_token=${token}`,
+    url: `https://graph.instagram.com/${userId}?fields=id,username,media_count,media{id,caption,media_url,media_type,timestamp,permalink}&access_token=${token}`,
 }));
 ---
 
@@ -25,6 +25,7 @@ const fetchEntries = Object.entries(accounts).map(([account, { userId, token }])
         media_url: string;
         media_type: string;
         timestamp: string;
+        permalink?: string;
     };
 
     declare global {
@@ -59,7 +60,16 @@ const fetchEntries = Object.entries(accounts).map(([account, { userId, token }])
                         img.alt = media.caption ?? "";
                         img.decoding = "async";
                         img.loading = "lazy";
-                        el.appendChild(img);
+                        if (media.permalink) {
+                            const a = document.createElement("a");
+                            a.href = media.permalink;
+                            a.target = "_blank";
+                            a.rel = "noopener";
+                            a.appendChild(img);
+                            el.appendChild(a);
+                        } else {
+                            el.appendChild(img);
+                        }
                     }
                 }
             } catch {
